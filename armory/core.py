@@ -76,7 +76,7 @@ class Evaluator:
         exit_code = 0
         try:
             log.info(bold(red("Running Evaluation")))
-            scenario_main(self.config)
+            exit_code = scenario_main(self.config)
         except KeyboardInterrupt:
             log.warning("Keyboard interrupt caught")
         finally:
