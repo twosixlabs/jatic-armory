@@ -276,15 +276,8 @@ def run(command_args, prog, description) -> int:
     if args.classes:
         config["dataset"]["class_ids"] = args.classes
 
-    rig = Evaluator(config, no_docker=True, root=False)
-    exit_code = rig.run(
-        check_run=args.check,
-        num_eval_batches=args.num_eval_batches,
-        skip_benign=args.skip_benign,
-        skip_attack=args.skip_attack,
-        skip_misclassified=args.skip_misclassified,
-        validate_config=args.validate_config,
-    )
+    rig = Evaluator(config)
+    exit_code = rig.run()
     return exit_code
 
 

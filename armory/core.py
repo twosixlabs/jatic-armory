@@ -15,12 +15,7 @@ class Evaluator:
     Evaluators control launching of ARMORY evaluations.
     """
 
-    def __init__(
-        self,
-        config: dict,
-        no_docker: bool = True,
-        root: bool = False,
-    ):
+    def __init__(self, config: dict):
         log.info("Constructing Evaluator Object")
         if not isinstance(config, dict):
             raise ValueError(f"config {config} must be a dict")
@@ -39,8 +34,8 @@ class Evaluator:
         eval_id = f"{output_dir}_{date_time}" if output_dir else date_time
 
         self.config["eval_id"] = eval_id
-        self.output_dir = os.path.join(self.host_paths.output_dir, eval_id)
-        self.tmp_dir = os.path.join(self.host_paths.tmp_dir, eval_id)
+        self.output_dir = os.path.join(self.host_paths.output_dir, eval_id) # Used in _cleanup()
+        self.tmp_dir = os.path.join(self.host_paths.tmp_dir, eval_id)       # Used in _cleanup()
 
         # Retrieve environment variables that should be used in evaluation
         log.info("Retrieving Environment Variables")
@@ -59,30 +54,19 @@ class Evaluator:
             # "HOME": "/tmp",
         })
         self.config.update(os.environ.copy())
-        self.manager = self.config
-        self.no_docker = True
-        self.root = False
 
-    def run(
-        self,
-        command=None,
-        check_run=False,
-        num_eval_batches=None,
-        skip_benign=None,
-        skip_attack=None,
-        skip_misclassified=None,
-        validate_config=None,
-    ) -> int:
+
+    def run(self) -> int:
         exit_code = 0
         try:
             log.info(bold(red("Running Evaluation")))
             exit_code = scenario_main(self.config)
         except KeyboardInterrupt:
             log.warning("Keyboard interrupt caught")
-        finally:
-            log.info("cleaning up...")
+        log.info("cleaning up...")
         self._cleanup()
         return exit_code
+
 
     def _cleanup(self):
         log.info(f"deleting tmp_dir {self.tmp_dir}")
