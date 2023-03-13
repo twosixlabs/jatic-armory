@@ -44,7 +44,7 @@ class Evaluator:
 
         # Retrieve environment variables that should be used in evaluation
         log.info("Retrieving Environment Variables")
-        self.extra_env_vars = {
+        self.config.update({
             "ARMORY_GITHUB_TOKEN": os.getenv("ARMORY_GITHUB_TOKEN", default=""),
             "ARMORY_PRIVATE_S3_ID": os.getenv("ARMORY_PRIVATE_S3_ID", default=""),
             "ARMORY_PRIVATE_S3_KEY": os.getenv("ARMORY_PRIVATE_S3_KEY", default=""),
@@ -57,9 +57,9 @@ class Evaluator:
             "TORCH_HOME": paths.HostPaths().pytorch_dir,
             environment.ARMORY_VERSION: armory.__version__,
             # "HOME": "/tmp",
-        }
-        self.extra_env_vars.update(os.environ.copy())
-        self.manager = self.extra_env_vars
+        })
+        self.config.update(os.environ.copy())
+        self.manager = self.config
         self.no_docker = True
         self.root = False
 
