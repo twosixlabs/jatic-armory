@@ -10,13 +10,6 @@ from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
 
 
-class ArmoryInstance:
-    def __init__(self, envs: dict = None):
-        self.env = os.environ.copy()
-        for k, v in envs.items():
-            self.env[str(k)] = str(v)
-
-
 class Evaluator:
     """
     Evaluators control launching of ARMORY evaluations.
@@ -65,8 +58,8 @@ class Evaluator:
             environment.ARMORY_VERSION: armory.__version__,
             # "HOME": "/tmp",
         }
-
-        self.manager = ArmoryInstance(envs=self.extra_env_vars)
+        self.extra_env_vars.update(os.environ.copy())
+        self.manager = self.extra_env_vars
         self.no_docker = True
         self.root = False
 
