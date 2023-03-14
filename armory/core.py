@@ -60,6 +60,7 @@ class Evaluator:
         exit_code = 0
         try:
             log.info(bold(red("Running Evaluation")))
+            # TODO: Return tuple of (exit_code: int, scenario_results: dict) -CW
             exit_code = scenario_main(self.config)
         except KeyboardInterrupt:
             log.warning("Keyboard interrupt caught")
