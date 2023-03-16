@@ -10,6 +10,11 @@ from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
 
 
+# TODO: Remove the Engine class completely. The goal is
+#       to be able to pass a config file to the engine
+#       and have it run a scenario directly.
+#       This is a temporary solution/scaffolding used to
+#       debug and mock that future functionality. -CW
 class Engine:
     """
     Engine control launching of ARMORY evaluations.
