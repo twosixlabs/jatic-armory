@@ -258,7 +258,7 @@ class Scenario:
         dataset_config = self.config["dataset"]
         eval_split = dataset_config.get("eval_split", eval_split_default)
         # Evaluate the ART model on benign test examples
-        log.info(f"Loading test dataset {dataset_config['name']}...")
+        log.info(f"Loading test dataset...")
         self.test_dataset = config_loading.load_dataset(
             dataset_config,
             epochs=1,
