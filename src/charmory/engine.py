@@ -9,8 +9,12 @@ from armory.logs import log
 from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
 
-class Evaluator:
-    def __init__(self, evaluation: Evaluation):
+
+class Engine:
+    """
+    Engine control launching of ARMORY evaluations.
+    """
+    def __init__(self, experiment):
         self.evaluation = evaluation
 
         metadata = evaluation._metadata
@@ -25,36 +29,20 @@ class Evaluator:
             log.info(
                 f"Creating experiment {self.evaluation._metadata.name} as {self.experiment_id}"
             )
-class Engine:
-    def __init__(self, experiment):
-        self.experiment = experiment
 
     def run(self):
-        # print(f"Running experiment {self.experiment._metadata.name}")
-        # result = {}
-        # result["benign"] = id(self.experiment.model)
-        # if self.experiment.attack:
-        #     result["attack"] = id(self.experiment.attack)
-        # return result
-        scenario_main(self.experiment)
+        log.info(bold(f"Running Evaluation{red(self.experiment._metadata.name)}"))
+        result = scenario_main(self.evaluation)
+        result["benign"] = id(self.experiment.model)
+        if self.experiment.attack:
+            result["attack"] = id(self.experiment.attack)
+        return result
 
-#     def run(self) -> int:
-#         exit_code = 0
-#         try:
-#             log.info(bold(red("Running Evaluation")))
-#             # TODO: Return tuple of (exit_code: int, scenario_results: dict) -CW
-#             exit_code = scenario_main(self.config)
-#         except KeyboardInterrupt:
-#             log.warning("Keyboard interrupt caught")
-#         log.info("cleaning up...")
-#         self._cleanup()
-#         return exit_code
+
+        return result
+
 
 # class Evaluator:
-#     """
-#     Evaluators control launching of ARMORY evaluations.
-#     """
-
 #     def __init__(self, config: dict):
 #         log.info("Constructing Evaluator Object")
 #         if not isinstance(config, dict):
@@ -95,35 +83,3 @@ class Engine:
 #             # "HOME": "/tmp",
 #         })
 #         self.config.update(os.environ.copy())
-
-
-#     def run(self) -> int:
-#         exit_code = 0
-#         try:
-#             log.info(bold(red("Running Evaluation")))
-#             # TODO: Return tuple of (exit_code: int, scenario_results: dict) -CW
-#             exit_code = scenario_main(self.config)
-#         except KeyboardInterrupt:
-#             log.warning("Keyboard interrupt caught")
-#         log.info("cleaning up...")
-#         self._cleanup()
-#         return exit_code
-
-
-#     def _cleanup(self):
-#         log.info(f"deleting tmp_dir {self.tmp_dir}")
-#         try:
-#             shutil.rmtree(self.tmp_dir)
-#         except OSError as e:
-#             if not isinstance(e, FileNotFoundError):
-#                 log.exception(f"Error removing tmp_dir {self.tmp_dir}")
-#         try:
-#             os.rmdir(self.output_dir)
-#             log.warning(f"removed output_dir {self.output_dir} because it was empty")
-#         except FileNotFoundError:
-#             log.warning(f"output_dir {self.output_dir} was deleted or never created")
-#         except OSError:
-#             jsons = [x for x in os.listdir(self.output_dir) if x.endswith(".json")]
-#             json_output = jsons[0] if len(jsons) == 1 else ""
-#             output_path = os.path.join(self.output_dir, json_output)
-#             log.info(f"results output written to:\n{output_path}")
