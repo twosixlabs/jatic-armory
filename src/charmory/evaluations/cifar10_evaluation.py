@@ -37,12 +37,12 @@ def cifar10_baseline() -> Evaluation:
             batch_size=64
         ),
         attack=Attack(
-            function="art.attacks.evasion:FastGradientMethod",
+            function="art.attacks.evasion:ProjectedGradientDescent",
             kwargs={
                 "batch_size": 1,
                 "eps": 0.031,
                 "eps_step": 0.007,
-                # "max_iter": 20,
+                "max_iter": 20,
                 "num_random_init": 1,
                 "random_eps": False,
                 "targeted": False,
