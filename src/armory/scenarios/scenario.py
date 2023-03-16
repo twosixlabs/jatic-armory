@@ -189,7 +189,7 @@ class Scenario:
 
     def load_train_dataset(self, train_split_default="train"):
         dataset_config = self.config["dataset"]
-        log.info(f"Loading train dataset {dataset_config['name']}...")
+        log.info(f"Loading train dataset...")
         self.train_dataset = config_loading.load_dataset(
             dataset_config,
             epochs=self.fit_kwargs["nb_epochs"],
