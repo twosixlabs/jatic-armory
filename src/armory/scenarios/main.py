@@ -158,8 +158,10 @@ def main(scenario_config: dict):
 
     # TODO: Refactor the dynamic import mechanism. -CW
     _scenario_config = scenario_config.get("scenario")
+    scenario_module = _scenario_config["function"].split(".")[:-1]
+    scenario_method = _scenario_config["function"].split(".")[-1]
     ScenarioClass = getattr(
-        import_module(_scenario_config["module"]), _scenario_config["name"]
+        import_module(scenario_module), scenario_method
     )
 
     # TODO: Add `num_eval_batches` to scenario_config -CW
