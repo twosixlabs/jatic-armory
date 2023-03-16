@@ -99,7 +99,7 @@ def run_config(*args, **kwargs):
     scenario.evaluate()
 
 
-def _scenario_setup(config: Config) -> None:
+def _scenario_setup(config) -> None:
     """
     Creates scenario specific tmp and output directiories.
 
@@ -108,13 +108,13 @@ def _scenario_setup(config: Config) -> None:
     """
 
     runtime_paths = paths.HostPaths()
-    if "eval_id" not in config:
+    if not hasattr(config, "eval_id"):
         timestamp = time.time()
         log.error(f"eval_id not in config. Inserting current timestamp {timestamp}")
-        config["eval_id"] = str(timestamp)
+        config.eval_id = str(timestamp)
 
-    scenario_output_dir = os.path.join(runtime_paths.output_dir, config["eval_id"])
-    scenario_tmp_dir = os.path.join(runtime_paths.tmp_dir, config["eval_id"])
+    scenario_output_dir = os.path.join(runtime_paths.output_dir, config.eval_id)
+    scenario_tmp_dir = os.path.join(runtime_paths.tmp_dir, config.eval_id)
     os.makedirs(scenario_output_dir, exist_ok=True)
     os.makedirs(scenario_tmp_dir, exist_ok=True)
 
@@ -122,26 +122,26 @@ def _scenario_setup(config: Config) -> None:
     make_logfiles(scenario_output_dir)
 
     # Download any external repositories and add them to the sys path for use
-    if config["sysconfig"].get("external_github_repo", None):
-        external_repo_dir = os.path.join(scenario_tmp_dir, "external")
-        external_repo.download_and_extract_repos(
-            config["sysconfig"]["external_github_repo"],
-            external_repo_dir=external_repo_dir,
-        )
-    pythonpaths = config["sysconfig"].get("external_github_repo_pythonpath")
-    if isinstance(pythonpaths, str):
-        pythonpaths = [pythonpaths]
-    elif pythonpaths is None:
-        pythonpaths = []
-    for pythonpath in pythonpaths:
-        external_repo.add_pythonpath(pythonpath, external_repo_dir=external_repo_dir)
-    local_paths = config["sysconfig"].get("local_repo_path")
-    if isinstance(local_paths, str):
-        local_paths = [local_paths]
-    elif local_paths is None:
-        local_paths = []
-    for local_path in local_paths:
-        external_repo.add_local_repo(local_path)
+    # if config["sysconfig"].get("external_github_repo", None):
+    #     external_repo_dir = os.path.join(scenario_tmp_dir, "external")
+    #     external_repo.download_and_extract_repos(
+    #         config["sysconfig"]["external_github_repo"],
+    #         external_repo_dir=external_repo_dir,
+    #     )
+    # pythonpaths = config["sysconfig"].get("external_github_repo_pythonpath")
+    # if isinstance(pythonpaths, str):
+    #     pythonpaths = [pythonpaths]
+    # elif pythonpaths is None:
+    #     pythonpaths = []
+    # for pythonpath in pythonpaths:
+    #     external_repo.add_pythonpath(pythonpath, external_repo_dir=external_repo_dir)
+    # local_paths = config["sysconfig"].get("local_repo_path")
+    # if isinstance(local_paths, str):
+    #     local_paths = [local_paths]
+    # elif local_paths is None:
+    #     local_paths = []
+    # for local_path in local_paths:
+    #     external_repo.add_local_repo(local_path)
 
 
 def main(scenario_config: dict):
@@ -157,9 +157,8 @@ def main(scenario_config: dict):
     _scenario_setup(scenario_config)
 
     # TODO: Refactor the dynamic import mechanism. -CW
-    _scenario_config = scenario_config.get("scenario")
-    scenario_module = _scenario_config["function"].split(".")[:-1]
-    scenario_method = _scenario_config["function"].split(".")[-1]
+    _scenario_config = scenario_config.scenario
+    scenario_module, scenario_method = _scenario_config.function.split(":")
     ScenarioClass = getattr(
         import_module(scenario_module), scenario_method
     )
@@ -172,17 +171,14 @@ def main(scenario_config: dict):
     # if args.validate_config:
     #     run_validation(args.config, args.from_file)
 
-    kwargs = scenario_config.get("kwargs", {})
-    kwargs.update(
-        dict(
-            check_run=scenario_config["sysconfig"]["check"],
-            num_eval_batches=0,
-            skip_benign=False,
-            skip_attack=False,
-            skip_misclassified=False,
-        )
-    )
-    scenario_config["kwargs"] = kwargs
+    kwargs = {
+        "check_run" : scenario_config.sysconfig.check,
+        "num_eval_batches" : 0,
+        "skip_benign" : False,
+        "skip_attack" : False,
+        "skip_misclassified" : False,
+        }
+    # scenario_config.kwargs = kwargs
     scenario = ScenarioClass(scenario_config, **kwargs)
 
     scenario.evaluate()

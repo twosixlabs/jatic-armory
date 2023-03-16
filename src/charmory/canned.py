@@ -20,7 +20,7 @@ def mnist_baseline() -> Evaluation:
             author="msw@example.com",
         ),
         model=Model(
-            function="armory.baseline_models.keras.mnist.get_art_model",
+            function="armory.baseline_models.keras.mnist:get_art_model",
             model_kwargs={},
             wrapper_kwargs={},
             weights_file=None,
@@ -28,14 +28,14 @@ def mnist_baseline() -> Evaluation:
             fit_kwargs={"nb_epochs": 20},
         ),
         scenario=Scenario(
-            function="armory.scenarios.image_classification.ImageClassificationTask",
+            function="armory.scenarios.image_classification:ImageClassificationTask",
             kwargs={},
         ),
         dataset=Dataset(
-            function="armory.data.datasets.mnist", framework="numpy", batch_size=128
+            function="armory.data.datasets:mnist", framework="numpy", batch_size=128
         ),
         attack=Attack(
-            function="art.attacks.evasion.FastGradientMethod",
+            function="art.attacks.evasion:FastGradientMethod",
             kwargs={
                 "batch_size": 1,
                 "eps": 0.2,
