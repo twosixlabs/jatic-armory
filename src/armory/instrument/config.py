@@ -32,7 +32,7 @@ class MetricsLogger:
         record_metric_per_sample=False,
         max_record_size=2**20,
         *args,
-        **kwargs
+        **kwargs,
     ):
         """
         task - single metric or list of metrics

@@ -1,10 +1,10 @@
 """A mock-up demo to show how Armory and MLflow interact."""
 
 
-import mlflow
 from loguru import logger as log
+import mlflow
 
-import charmory.canned
+# import charmory.canned
 
 
 def show_mlflow_experiement(experiment_id):

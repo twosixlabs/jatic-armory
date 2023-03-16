@@ -32,9 +32,7 @@ def cifar10_baseline() -> Evaluation:
             kwargs={},
         ),
         dataset=Dataset(
-            function="armory.data.datasets:cifar10",
-            framework="numpy",
-            batch_size=64
+            function="armory.data.datasets:cifar10", framework="numpy", batch_size=64
         ),
         attack=Attack(
             function="art.attacks.evasion:ProjectedGradientDescent",
@@ -46,7 +44,7 @@ def cifar10_baseline() -> Evaluation:
                 "num_random_init": 1,
                 "random_eps": False,
                 "targeted": False,
-                "verbose": False
+                "verbose": False,
             },
             knowledge="white",
             use_label=True,

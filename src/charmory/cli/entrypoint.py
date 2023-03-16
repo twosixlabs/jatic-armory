@@ -2,13 +2,10 @@
 Based on `track.py`
 """
 import datetime
-import shutil
-import os
-import sys
 import json
-
-# from charmory.evaluations.mnist_evaluation import mnist_baseline
-from charmory.evaluations.cifar10_evaluation import cifar10_baseline
+import os
+import shutil
+import sys
 
 import armory
 from armory import environment, paths
@@ -16,6 +13,9 @@ from armory.configuration import load_global_config
 from armory.logs import log
 from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
+
+# from charmory.evaluations.mnist_evaluation import mnist_baseline
+from charmory.evaluations.cifar10_evaluation import cifar10_baseline
 
 
 def configure_environment():
@@ -133,11 +133,6 @@ def main():
     print(("=" * 64).center(128))
 
     return result
-
-
-
-
-
 
 
 if __name__ == "__main__":

@@ -89,7 +89,7 @@ def load_model(model_config):
     preprocessing_fn can be a tuple of functions or None values
         If so, it applies to training and inference separately
     """
-    module, method = model_config['function'].split(":")
+    module, method = model_config["function"].split(":")
     model_module = import_module(module)
     model_fn = getattr(model_module, method)
     weights_file = model_config.get("weights_file", None)

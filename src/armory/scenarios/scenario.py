@@ -162,7 +162,7 @@ class Scenario:
 
     def load_model(self, defended=True):
         model_config = self.config["model"]
-        module, method = model_config['function'].split(":")
+        module, method = model_config["function"].split(":")
         model_name = f"{module}.{method}"
         model, _ = config_loading.load_model(model_config)
 
