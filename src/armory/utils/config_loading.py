@@ -35,19 +35,18 @@ from armory.data.utils import maybe_download_weights_from_s3
 from armory.utils import labels
 
 
+def load_fn(sub_config):
+    module, method = sub_config["function"].split(":")
+    return getattr(import_module(module), method)
+
+
 def load(sub_config):
-    module = import_module(sub_config["module"])
-    fn = getattr(module, sub_config["name"])
+    fn = load_fn(sub_config)
     args = sub_config.get("args", [])
     kwargs = sub_config.get("kwargs", {})
     if "clip_values" in kwargs:
         kwargs["clip_values"] = tuple(kwargs["clip_values"])
     return fn(*args, **kwargs)
-
-
-def load_fn(sub_config):
-    module = import_module(sub_config["module"])
-    return getattr(module, sub_config["name"])
 
 
 # TODO THIS is a TERRIBLE Pattern....can we refactor?
@@ -61,12 +60,11 @@ def load_dataset(dataset_config, *args, num_batches=None, check_run=False, **kwa
     dataset_config = copy.deepcopy(
         dataset_config
     )  # Avoid modifying original dictionary
-    module = dataset_config.pop("module")
-    dataset_fn_name = dataset_config.pop("name")
+
+    module, method = dataset_config.pop("function").split(":")
     batch_size = dataset_config.pop("batch_size", 1)
     framework = dataset_config.pop("framework", "numpy")
-    dataset_module = import_module(module)
-    dataset_fn = getattr(dataset_module, dataset_fn_name)
+    dataset_fn = getattr(import_module(module), method)
 
     # Add remaining dataset_config items to kwargs
     for remaining_kwarg in dataset_config:
