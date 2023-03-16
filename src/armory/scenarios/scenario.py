@@ -160,8 +160,8 @@ class Scenario:
 
     def load_model(self, defended=True):
         model_config = self.config["model"]
-        breakpoint()
-        model_name = f"{model_config['module']}.{model_config['name']}"
+        module, function = model_config['function'].split(":")
+        model_name = f"{model}.{function}"
         model, _ = config_loading.load_model(model_config)
 
         if defended:
