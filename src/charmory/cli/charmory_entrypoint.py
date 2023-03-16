@@ -7,7 +7,8 @@ import os
 import sys
 import json
 
-import charmory.canned
+# from charmory.evaluations.mnist_evaluation import mnist_baseline
+from charmory.evaluations.cifar10_evaluation import cifar10_baseline
 
 import armory
 from armory import environment, paths
@@ -100,7 +101,8 @@ def main():
     print("Armory: Example Programmatic Entrypoint for Scenario Execution")
     # configure_environment()
 
-    demo_evaluation = charmory.canned.mnist_baseline()
+    # demo_evaluation = mnist_baseline()
+    demo_evaluation = cifar10_baseline()
 
     log.info(bold(f"Starting Demo for {red(demo_evaluation._metadata.name)}"))
 
