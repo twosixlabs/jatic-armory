@@ -154,8 +154,7 @@ def load_attack(attack_config, classifier):
                 f"are as follows: {SUPPORTED_TYPES}."
             )
 
-    attack_module = import_module(attack_config["module"])
-    attack_fn = getattr(attack_module, attack_config["name"])
+    attack_fn = load_fn(attack_config)
     attack = attack_fn(classifier, **attack_config["kwargs"])
 
     if attack_config.get("type") == "sweep":
@@ -180,8 +179,7 @@ def load_attack(attack_config, classifier):
 def load_adversarial_dataset(config, num_batches=None, check_run=False, **kwargs):
     if config.get("type") != "preloaded":
         raise ValueError(f"attack type must be 'preloaded', not {config.get('type')}")
-    dataset_module = import_module(config["module"])
-    dataset_fn = getattr(dataset_module, config["name"])
+    dataset_fn = load_fn(config)
     dataset_kwargs = config["kwargs"]
     dataset_kwargs.update(kwargs)
     if "description" in dataset_kwargs:
@@ -212,8 +210,7 @@ def load_defense_wrapper(defense_config, classifier):
             f"Wrapped defenses must be of type Trainer, found {defense_type}"
         )
 
-    defense_module = import_module(defense_config["module"])
-    defense_fn = getattr(defense_module, defense_config["name"])
+    defense_fn = load_fn(defense_config)
     kwargs = copy.deepcopy(defense_config["kwargs"])
     if "augmentations" in kwargs and kwargs["augmentations"] is not None:
         # create Preprocess object and add it to kwargs
