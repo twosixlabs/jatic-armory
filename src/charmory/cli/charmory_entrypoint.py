@@ -5,6 +5,9 @@ import os
 import sys
 
 from mlflow import log_metric, log_param
+from loguru import logger as log
+
+from charmory.core import Evaluator
 
 from charmory.experiment import (
     Attack,
@@ -54,19 +57,6 @@ def configure_environment():
         raise
     except ImportError:
         pass
-
-
-class Evaluator:
-    def __init__(self, experiment: Experiment):
-        self.experiment = experiment
-
-    def run(self):
-        print(f"Running experiment {self.experiment._metadata.name}")
-        result = {}
-        result["benign"] = id(self.experiment.model)
-        if self.experiment.attack:
-            result["attack"] = id(self.experiment.attack)
-        return result
 
 
 def mnist_experiment() -> Experiment:
