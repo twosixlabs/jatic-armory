@@ -5,7 +5,7 @@ import mlflow
 from loguru import logger as log
 
 import charmory.canned
-from charmory.evaluation import Evaluation
+from charmory.engine import Engine
 
 
 def show_mlflow_experiement(experiment_id):
@@ -52,7 +52,7 @@ def show_mlflow_experiement(experiment_id):
 def main():
     mnist = charmory.canned.mnist_baseline()
 
-    evaluator = Evaluator(mnist)
+    evaluator = Engine(mnist)
     log.info("mnist experiment tracked")
 
     results = evaluator.run()
