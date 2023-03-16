@@ -80,7 +80,9 @@ class Scenario:
             log.info("Skipping attack generation...")
         self.time_stamp = time.time()
         self.export_subdir = "saved_samples"
-        self._set_output_dir(self.config.get("eval_id"))
+        # self._set_output_dir(self.config.get("eval_id"))
+        self.export_dir = f"private"
+        self.export_subdir = self.export_dir
         # if os.path.exists(f"{self.scenario_output_dir}/{self.export_subdir}"):
         #     log.warning(
         #         f"Export output directory {self.scenario_output_dir}/{self.export_subdir} already exists, will create new directory"
@@ -128,7 +130,7 @@ class Scenario:
     def _set_output_dir(self, eval_id) -> None:
         ...
         # runtime_paths = paths.HostPaths()
-        # self.scenario_output_dir = os.path.join(runtime_paths.output_dir, eval_id)
+        # self.scenario_output_dir = os.path.join(runtime_paths.output_dir, "eval_id")
         # self.hub._set_output_dir(self.scenario_output_dir)
         # self._set_export_dir(self.export_subdir)
 
