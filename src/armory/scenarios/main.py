@@ -171,14 +171,7 @@ def main(scenario_config: dict):
     # if args.validate_config:
     #     run_validation(args.config, args.from_file)
 
-    kwargs = {
-        "check_run" : scenario_config.sysconfig.check,
-        "num_eval_batches" : 0,
-        "skip_benign" : False,
-        "skip_attack" : False,
-        "skip_misclassified" : False,
-        }
-    # scenario_config.kwargs = kwargs
+    kwargs = {}
     scenario = ScenarioClass(scenario_config, **kwargs)
 
     scenario.evaluate()
