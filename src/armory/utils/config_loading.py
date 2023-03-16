@@ -51,6 +51,7 @@ def load_fn(sub_config):
 
 
 # TODO THIS is a TERRIBLE Pattern....can we refactor?
+# TODO: No promises, but I'll work on it. -CW 03162023
 def load_dataset(dataset_config, *args, num_batches=None, check_run=False, **kwargs):
     """
     Loads a dataset from configuration file
@@ -90,8 +91,9 @@ def load_model(model_config):
     preprocessing_fn can be a tuple of functions or None values
         If so, it applies to training and inference separately
     """
-    model_module = import_module(model_config["module"])
-    model_fn = getattr(model_module, model_config["name"])
+    module, method = model_config['function'].split(":")
+    model_module = import_module(module)
+    model_fn = getattr(model_module, method)
     weights_file = model_config.get("weights_file", None)
     if isinstance(weights_file, str):
         weights_path = maybe_download_weights_from_s3(
