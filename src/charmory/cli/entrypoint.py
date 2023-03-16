@@ -126,7 +126,7 @@ def main():
     #     )
     print(("=" * 64).center(128))
 
-    print(json.dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
+    print(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
     print(("-" * 64).center(128))
 
     print(result)
