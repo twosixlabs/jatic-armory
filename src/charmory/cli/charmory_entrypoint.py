@@ -5,6 +5,7 @@ import datetime
 import shutil
 import os
 import sys
+import json
 
 import charmory.canned
 
@@ -94,40 +95,47 @@ def show_mlflow_experiement(experiment_id):
         mlflow.end_run()
         return result
 
-# TODO: Move all MLFlow logic into a demo notebook/script,
-# or create an adapter for Armory output data. -CW
-# metadata = evaluation._metadata
-# mlexp = mlflow.get_experiment_by_name(metadata.name)
-# if mlexp:
-#     self.experiment_id = mlexp.experiment_id
-#     log.info(f"Experiment {metadata.name} already exists {self.experiment_id}")
-# else:
-#     self.experiment_id = mlflow.create_experiment(
-#         metadata.name,
-#     )
-#     log.info(
-#         f"Creating experiment {self.evaluation._metadata.name} as {self.experiment_id}"
-#     )
 
 def main():
     print("Armory: Example Programmatic Entrypoint for Scenario Execution")
     # configure_environment()
 
-    print("Starting demo")
-    mnist = charmory.canned.mnist_baseline()
-    evaluator = Engine(mnist)
-    evaluator.run()
+    demo_evaluation = charmory.canned.mnist_baseline()
+
+    log.info(bold(f"Starting Demo for {red(demo_evaluation._metadata.name)}"))
+
+    result = scenario_main(demo_evaluation)
+    result["benign"] = id(demo_evaluation)
+
+    if self.evaluation.attack:
+        result["attack"] = id(demo_evaluation)
+
+    log.info(bold("mnist experiment results tracked"))
+    # TODO: Integrate logic into demo script above. -CW
+    # metadata = evaluation._metadata
+    # mlexp = mlflow.get_experiment_by_name(metadata.name)
+    # if mlexp:
+    #     self.experiment_id = mlexp.experiment_id
+    #     log.info(f"Experiment {metadata.name} already exists {self.experiment_id}")
+    # else:
+    #     self.experiment_id = mlflow.create_experiment(metadata.name)
+    #     log.info(
+    #         f"Creating experiment {self.evaluation._metadata.name} as {self.experiment_id}"
+    #     )
+    print(("=" * 64).center(128))
+
+    print(json.dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
+    print(("-" * 64).center(128))
+
+    print(result)
+    print(("=" * 64).center(128))
+
+    return result
 
 
-        log.info(bold(f"Running Evaluation{red(self.evaluation._metadata.name)}"))
-        result = scenario_main(self.evaluation)
-        result["benign"] = id(self.evaluation.model)
-        if self.evaluation.attack:
-            result["attack"] = id(self.evaluation.attack)
-        return result
 
 
-    print("mnist experiment results tracked")
+
 
 
 if __name__ == "__main__":
