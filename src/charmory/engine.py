@@ -9,8 +9,23 @@ from armory.logs import log
 from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
 
-
 class Evaluator:
+    def __init__(self, evaluation: Evaluation):
+        self.evaluation = evaluation
+
+        metadata = evaluation._metadata
+        mlexp = mlflow.get_experiment_by_name(metadata.name)
+        if mlexp:
+            self.experiment_id = mlexp.experiment_id
+            log.info(f"Experiment {metadata.name} already exists {self.experiment_id}")
+        else:
+            self.experiment_id = mlflow.create_experiment(
+                metadata.name,
+            )
+            log.info(
+                f"Creating experiment {self.evaluation._metadata.name} as {self.experiment_id}"
+            )
+class Engine:
     def __init__(self, experiment):
         self.experiment = experiment
 

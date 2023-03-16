@@ -5,7 +5,7 @@ import os
 import sys
 
 import charmory.canned
-from charmory.core import Evaluator
+from charmory.engine import Engine
 
 
 def configure_environment():
@@ -52,7 +52,7 @@ def main():
 
     print("Starting demo")
     mnist = charmory.canned.mnist_baseline()
-    evaluator = Evaluator(mnist)
+    evaluator = Engine(mnist)
     evaluator.run()
 
     print("mnist experiment results tracked")

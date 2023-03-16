@@ -17,24 +17,6 @@ def show_mlflow_experiement(experiment_id):
     print(f"Lifecycle Stage: {experiment.lifecycle_stage}")
     print(f"Creation Time: {experiment.creation_time}")
 
-
-class Evaluator:
-    def __init__(self, evaluation: Evaluation):
-        self.evaluation = evaluation
-
-        metadata = evaluation._metadata
-        mlexp = mlflow.get_experiment_by_name(metadata.name)
-        if mlexp:
-            self.experiment_id = mlexp.experiment_id
-            log.info(f"Experiment {metadata.name} already exists {self.experiment_id}")
-        else:
-            self.experiment_id = mlflow.create_experiment(
-                metadata.name,
-            )
-            log.info(
-                f"Creating experiment {self.evaluation._metadata.name} as {self.experiment_id}"
-            )
-
     def run(self):
         """fake an evaluation to demonstrate mlflow tracking."""
         metadata = self.evaluation._metadata
