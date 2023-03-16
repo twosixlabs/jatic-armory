@@ -14,7 +14,7 @@ class Engine:
     """
     Engine control launching of ARMORY evaluations.
     """
-    def __init__(self, experiment):
+    def __init__(self, evaluation):
         self.evaluation = evaluation
 
         metadata = evaluation._metadata
@@ -36,9 +36,6 @@ class Engine:
         result["benign"] = id(self.experiment.model)
         if self.experiment.attack:
             result["attack"] = id(self.experiment.attack)
-        return result
-
-
         return result
 
 
