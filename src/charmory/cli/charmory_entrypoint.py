@@ -5,7 +5,7 @@ import os
 import sys
 
 import charmory.canned
-from charmory.track import Evaluator
+from charmory.core import Evaluator
 
 
 def configure_environment():
