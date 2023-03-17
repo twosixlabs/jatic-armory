@@ -5,6 +5,8 @@
 from dataclasses import asdict, dataclass
 from typing import Any, Literal, Optional
 
+from armory.scenarios.main import main as scenario_main
+
 MethodName = str  # reference to a python method e.g. "armory.attacks.weakest"
 StrDict = dict[str, Any]  # dictionary of string keys and any values
 
@@ -77,7 +79,7 @@ class MetaData:
     description: str
     author: Optional[str]
 
-from armory.scenarios.main import main as scenario_main
+
 @dataclass
 class Evaluation:
     _metadata: MetaData

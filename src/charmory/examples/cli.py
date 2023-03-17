@@ -24,7 +24,7 @@ def main():
 
     log.info(bold(f"Starting Demo for {red(demo_evaluation._metadata.name)}"))
 
-    result = Engine(demo_evaluation).run()
+    result = demo_evaluation.run()
     result["benign"] = id(demo_evaluation)
 
     if self.evaluation.attack:
