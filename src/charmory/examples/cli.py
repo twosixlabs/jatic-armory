@@ -14,8 +14,8 @@ from armory.logs import log
 from armory.utils.printing import bold, red
 
 from charmory.engine import Engine
-# from charmory.evaluations.mnist_evaluation import mnist_baseline
-from charmory.evaluations.cifar10_evaluation import cifar10_baseline
+# from charmory.examples.mnist_evaluation import mnist_baseline
+from charmory.examples.cifar10_evaluation import cifar10_baseline
 
 
 def main():

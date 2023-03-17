@@ -31,8 +31,8 @@ BugTracker = "https://github.com/twosixlabs/armory/issues"
 Documentation = "https://armory.readthedocs.io/en/latest/"
 
 [project.scripts]
-armory = "charmory.cli.entrypoint:main"
-charmory = "charmory.cli.entrypoint:main"
+armory = "charmory.examples.cli:main"
+charmory = "charmory.examples.cli:main"
 
 
 # please see docs/getting_started.md#the-armory-flavors for how these
