@@ -11,9 +11,9 @@ import armory
 from armory import environment, paths
 from armory.configuration import load_global_config
 from armory.logs import log
-from armory.scenarios.main import main as scenario_main
 from armory.utils.printing import bold, red
 
+from charmory.engine import Engine
 # from charmory.evaluations.mnist_evaluation import mnist_baseline
 from charmory.evaluations.cifar10_evaluation import cifar10_baseline
 
@@ -25,7 +25,7 @@ def main():
 
     log.info(bold(f"Starting Demo for {red(demo_evaluation._metadata.name)}"))
 
-    result = scenario_main(demo_evaluation)
+    result = Engine(demo_evaluation).run()
     result["benign"] = id(demo_evaluation)
 
     if self.evaluation.attack:
