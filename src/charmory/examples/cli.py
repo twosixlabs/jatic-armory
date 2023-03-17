@@ -13,7 +13,6 @@ from armory.configuration import load_global_config
 from armory.logs import log
 from armory.utils.printing import bold, red
 
-from charmory.engine import Engine
 # from charmory.examples.mnist_evaluation import mnist_baseline
 from charmory.examples.cifar10_evaluation import cifar10_baseline
 

@@ -77,7 +77,7 @@ class MetaData:
     description: str
     author: Optional[str]
 
-
+from armory.scenarios.main import main as scenario_main
 @dataclass
 class Evaluation:
     _metadata: MetaData
@@ -103,3 +103,6 @@ class Evaluation:
                     yield ".".join(path + [key]), value
 
         return [x for x in flatten_dict(self.asdict(), [])]
+
+    def run(self):
+        return scenario_main(self)
