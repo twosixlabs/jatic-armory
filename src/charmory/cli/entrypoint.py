@@ -13,14 +13,8 @@ from armory.configuration import load_global_config
 from armory.logs import log
 from armory.utils.printing import bold, red
 
-<<<<<<< HEAD:src/charmory/examples/cli.py
 # from charmory.examples.mnist_evaluation import mnist_baseline
 from charmory.examples.cifar10_evaluation import cifar10_baseline
-=======
-from charmory.engine import Engine
-# from charmory.evaluations.mnist_evaluation import mnist_baseline
-from charmory.evaluations.cifar10_evaluation import cifar10_baseline
->>>>>>> parent of 55b988d... move evaluations into examples directory:src/charmory/cli/entrypoint.py
 
 
 def main():
