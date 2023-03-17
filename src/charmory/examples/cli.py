@@ -26,13 +26,10 @@ def main():
     log.info(bold(f"Starting Demo for {red(demo_evaluation._metadata.name)}"))
 
     result = Engine(demo_evaluation).run()
-    result["benign"] = id(demo_evaluation)
+    # result["benign"] = id(demo_evaluation)
 
-    if self.evaluation.attack:
-        result["attack"] = id(demo_evaluation)
-
-    log.info(bold("mnist experiment results tracked"))
-
+    # if self.evaluation.attack:
+    #     result["attack"] = id(demo_evaluation)
     print(("=" * 64).center(128))
 
     print(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
@@ -40,6 +37,9 @@ def main():
 
     print(result)
     print(("=" * 64).center(128))
+
+    log.info(bold("mnist experiment results tracked"))
+
 
     return result
 
