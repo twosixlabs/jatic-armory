@@ -47,7 +47,6 @@ setup:
     - merge_requests
   script: |
     if [[ ! -d "${PYTHON_VENV_DIR}" ]]; then
-      pip3 install --upgrade virtualenv
       python3 -m venv --copies "${PYTHON_VENV_DIR}"
     fi
     source "${PYTHON_VENV_DIR}/bin/activate"
