@@ -10,6 +10,7 @@ stages:
 
 variables:
   ARMORY_CI_TEST: 1
+  DEBIAN_FRONTEND: noninteractive
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   PYTHON_VENV_DIR: "$CI_PROJECT_DIR/.cache/venv"
   PYTEST_PARAMS: >-
