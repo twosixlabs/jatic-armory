@@ -69,10 +69,10 @@ engine = [
 ]
 
 math = [
+    "scikit-learn == 1.2.0",  # ART requires scikit-learn >= 0.22.2, < 1.2.0
+    "scipy == 1.7.1",         # ART requires scipy >= 1.4.1, < 1.10.1
     "numpy",
     "pandas",
-    "scipy >= 1.4.1",
-    "scikit-learn == 1.10.1",   # ART requires scikit-learn >=0.22.2,<1.2.0
     "matplotlib",
 ]
 
