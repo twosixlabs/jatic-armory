@@ -31,6 +31,8 @@ before_script:
   - apt-get install -qqy --no-install-recommends --no-install-suggests build-essential
   # Needed by versioning and linting scripts
   - apt-get install -qqy --no-install-recommends --no-install-suggests git
+  # Needed for OpenCV
+  - apt install -qqy --no-install-recommends --no-install-suggests libgl1-mesa-glx
   # Base requirements
   - apt-get install -qqy --no-install-recommends --no-install-suggests gnupg software-properties-common
   - add-apt-repository -y ppa:deadsnakes/ppa
