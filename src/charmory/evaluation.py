@@ -5,8 +5,6 @@
 from dataclasses import asdict, dataclass
 from typing import Any, Literal, Optional
 
-from armory.scenarios.main import main as scenario_main
-
 MethodName = str  # reference to a python method e.g. "armory.attacks.weakest"
 StrDict = dict[str, Any]  # dictionary of string keys and any values
 
@@ -106,5 +104,19 @@ class Evaluation:
 
         return [x for x in flatten_dict(self.asdict(), [])]
 
-    def run(self):
-        return scenario_main(self)
+
+# List of old armory environmental variables used in evaluations
+# self.config.update({
+#   "ARMORY_GITHUB_TOKEN": os.getenv("ARMORY_GITHUB_TOKEN", default=""),
+#   "ARMORY_PRIVATE_S3_ID": os.getenv("ARMORY_PRIVATE_S3_ID", default=""),
+#   "ARMORY_PRIVATE_S3_KEY": os.getenv("ARMORY_PRIVATE_S3_KEY", default=""),
+#   "ARMORY_INCLUDE_SUBMISSION_BUCKETS": os.getenv(
+#     "ARMORY_INCLUDE_SUBMISSION_BUCKETS", default=""
+#   ),
+#   "VERIFY_SSL": self.armory_global_config["verify_ssl"] or False,
+#   "NVIDIA_VISIBLE_DEVICES": self.config["sysconfig"].get("gpus", None),
+#   "PYTHONHASHSEED": self.config["sysconfig"].get("set_pythonhashseed", "0"),
+#   "TORCH_HOME": paths.HostPaths().pytorch_dir,
+#   environment.ARMORY_VERSION: armory.__version__,
+#   # "HOME": "/tmp",
+# })
