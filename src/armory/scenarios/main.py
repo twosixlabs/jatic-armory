@@ -12,27 +12,13 @@ The particular scenario and configs will be picked up in the "scenario" field:
     This is used to instantiate the subclass.
 """
 
-import base64
+
 from importlib import import_module
-import importlib.resources
-import json
 import os
 import time
 
-
-from armory import Config, paths, validation
-from armory.logs import log, make_logfiles
-from armory.utils import config_loading
-from armory.utils.configuration import load_config
-
-
-def run_config(*args, **kwargs):
-    """
-    Convenience wrapper around 'load'
-    """
-    scenario = get(*args, **kwargs)
-    log.trace(f"scenario loaded {scenario}")
-    scenario.evaluate()
+import armory
+from armory.logs import log
 
 
 def _scenario_setup(config) -> None:
@@ -43,7 +29,7 @@ def _scenario_setup(config) -> None:
     itself is found in the external repository.
     """
 
-    runtime_paths = paths.HostPaths()
+    runtime_paths = armory.paths.HostPaths()
     if not hasattr(config, "eval_id"):
         timestamp = time.time()
         log.error(f"eval_id not in config. Inserting current timestamp {timestamp}")
@@ -54,8 +40,8 @@ def _scenario_setup(config) -> None:
     os.makedirs(scenario_output_dir, exist_ok=True)
     os.makedirs(scenario_tmp_dir, exist_ok=True)
 
-    log.info(f"armory outputs and logs will be written to {scenario_output_dir}")
-    make_logfiles(scenario_output_dir)
+    # log.info(f"armory outputs and logs will be written to {scenario_output_dir}")
+    # make_logfiles(scenario_output_dir)
 
     # Download any external repositories and add them to the sys path for use
     # if config["sysconfig"].get("external_github_repo", None):
