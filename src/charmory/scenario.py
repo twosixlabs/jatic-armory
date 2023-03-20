@@ -3,7 +3,6 @@ Primary class for scenario
 """
 
 import copy
-from importlib import import_module
 import json
 import sys
 import time
@@ -18,36 +17,6 @@ from armory.instrument.export import ExportMeter, PredictionMeter
 from armory.logs import log
 from armory.metrics import compute
 from armory.utils import config_loading
-
-
-class ScenarioRunner:
-    def __init__(self, config: dict):
-        """
-        Programmatic entrypoint for running scenarios
-          o TODO: Refactor method signature to be more explicit. -CW
-        """
-        self.config = config
-
-        # TODO: Remove after refactor. -CW
-        if not hasattr(self.config, "eval_id"):
-            log.error("eval_id not in config. Inserting current timestamp.")
-            self.config.eval_id = str(time.time())
-
-    def run(self):
-        # TODO: Refactor the dynamic import mechanism. -CW
-        _config = self.config.scenario
-        scenario_module, scenario_method = _config.function.split(":")
-        ScenarioClass = getattr(import_module(scenario_module), scenario_method)
-
-        # TODO: Add `num_eval_batches` to config -CW
-        # if args.check and args.num_eval_batches:
-        #     log.warning("--num_eval_batches will be overridden since --check was passed")
-        #     args.num_eval_batches = None
-
-        kwargs = {}
-        scenario = ScenarioClass(self.config, **kwargs)
-
-        return scenario.evaluate()
 
 
 class Scenario:
