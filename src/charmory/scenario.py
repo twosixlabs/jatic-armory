@@ -3,11 +3,9 @@ Primary class for scenario
 """
 
 import copy
-
-# import importlib
+from importlib import import_module
 import json
-
-# import os
+import os
 import sys
 import time
 from typing import Optional
@@ -21,6 +19,47 @@ from armory.instrument.export import ExportMeter, PredictionMeter
 from armory.logs import log
 from armory.metrics import compute
 from armory.utils import config_loading
+
+
+class ScenarioRunner:
+    def __init__(self, config: dict):
+        """
+        Programmatic entrypoint for running scenarios
+
+        TODO
+        ----------------
+          - Refactor method signature to be more explicit
+        """
+        # Setup the Scenario
+        # TODO: Remove after refactor. -CW
+        runtime_paths = armory.paths.HostPaths()
+        if not hasattr(config, "eval_id"):
+            timestamp = time.time()
+            log.error(f"eval_id not in config. Inserting current timestamp {timestamp}")
+            config.eval_id = str(timestamp)
+
+        scenario_output_dir = os.path.join(runtime_paths.output_dir, config.eval_id)
+        scenario_tmp_dir = os.path.join(runtime_paths.tmp_dir, config.eval_id)
+        os.makedirs(scenario_output_dir, exist_ok=True)
+        os.makedirs(scenario_tmp_dir, exist_ok=True)
+
+        self.config = config
+
+    def run(self):
+        # TODO: Refactor the dynamic import mechanism. -CW
+        _config = self.config.scenario
+        scenario_module, scenario_method = _config.function.split(":")
+        ScenarioClass = getattr(import_module(scenario_module), scenario_method)
+
+        # TODO: Add `num_eval_batches` to config -CW
+        # if args.check and args.num_eval_batches:
+        #     log.warning("--num_eval_batches will be overridden since --check was passed")
+        #     args.num_eval_batches = None
+
+        kwargs = {}
+        scenario = ScenarioClass(config, **kwargs)
+
+        return scenario.evaluate()
 
 
 class Scenario:

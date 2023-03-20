@@ -1,4 +1,4 @@
-from armory.scenarios.main import main as scenario_main
+from charmory.scenario import ScenarioRunner
 
 
 class Engine:
@@ -6,4 +6,4 @@ class Engine:
         self.evaluation = evaluation
 
     def run(self):
-        return scenario_main(self.evaluation)
+        return ScenarioRunner(self.evaluation).run()
