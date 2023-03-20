@@ -26,7 +26,9 @@ def main():
     #     result["attack"] = id(demo_evaluation)
     log.info(("=" * 64))
 
-    log.info(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
+    log.info(
+        __import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True)
+    )
     log.info("-" * 64)
 
     log.info(result)
