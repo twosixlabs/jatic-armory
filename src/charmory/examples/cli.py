@@ -40,9 +40,5 @@ def main():
 
 
 if __name__ == "__main__":
-    exitcode = os.EX_OK
-    try:
-        main()
-    except:
-        exitcode = os.EX_SOFTWARE
-    sys.exit(exitcode)
+    main()
+    sys.exit(os.EX_OK)
