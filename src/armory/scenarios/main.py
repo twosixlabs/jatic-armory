@@ -26,41 +26,6 @@ from armory.utils import config_loading
 from armory.utils.configuration import load_config
 
 
-def get(
-    config_json,
-    from_file=True,
-    check_run=False,
-    num_eval_batches=None,
-    skip_benign=None,
-    skip_attack=None,
-    skip_misclassified=None,
-):
-    """
-    Init environment variables and initialize scenario class with config;
-    returns a constructed Scenario subclass based on the config specification.
-    """
-    config = load_config(config_json)
-    scenario_config = config.get("scenario")
-    if scenario_config is None:
-        raise KeyError('"scenario" missing from evaluation config')
-    _scenario_setup(config)
-
-    ScenarioClass = config_loading.load_fn(scenario_config)
-    kwargs = scenario_config.get("kwargs", {})
-    kwargs.update(
-        dict(
-            check_run=check_run,
-            num_eval_batches=num_eval_batches,
-            skip_benign=skip_benign,
-            skip_attack=skip_attack,
-            skip_misclassified=skip_misclassified,
-        )
-    )
-    scenario_config["kwargs"] = kwargs
-    scenario = ScenarioClass(config, **kwargs)
-    return scenario
-
-
 def run_config(*args, **kwargs):
     """
     Convenience wrapper around 'load'
