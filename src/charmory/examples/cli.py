@@ -3,7 +3,6 @@ Based on `track.py`
 """
 import sys
 
-import armory
 from armory.logs import log
 from armory.utils.printing import bold, red
 from charmory.engine import Engine

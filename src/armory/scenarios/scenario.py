@@ -3,8 +3,10 @@ Primary class for scenario
 """
 
 import copy
+
 # import importlib
 import json
+
 # import os
 import sys
 import time
