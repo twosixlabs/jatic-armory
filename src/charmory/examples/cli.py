@@ -13,7 +13,7 @@ from charmory.examples.cifar10_evaluation import cifar10_baseline
 
 
 def main():
-    print("Armory: Example Programmatic Entrypoint for Scenario Execution")
+    log.info("Armory: Example Programmatic Entrypoint for Scenario Execution")
     # demo_evaluation = mnist_baseline()
     demo_evaluation = cifar10_baseline()
 
@@ -24,13 +24,13 @@ def main():
 
     # if self.evaluation.attack:
     #     result["attack"] = id(demo_evaluation)
-    print(("=" * 64).center(128))
+    log.info(("=" * 64))
 
-    print(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
-    print("-" * 64)
+    log.info(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
+    log.info("-" * 64)
 
-    print(result)
-    print("=" * 64)
+    log.info(result)
+    log.info("=" * 64)
 
     log.info(bold("mnist experiment results tracked"))
 
