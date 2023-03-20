@@ -25,25 +25,15 @@ class ScenarioRunner:
     def __init__(self, config: dict):
         """
         Programmatic entrypoint for running scenarios
-
-        TODO
-        ----------------
-          - Refactor method signature to be more explicit
+          o TODO: Refactor method signature to be more explicit. -CW
         """
-        # Setup the Scenario
-        # TODO: Remove after refactor. -CW
-        runtime_paths = armory.paths.HostPaths()
-        if not hasattr(config, "eval_id"):
-            timestamp = time.time()
-            log.error(f"eval_id not in config. Inserting current timestamp {timestamp}")
-            config.eval_id = str(timestamp)
-
-        scenario_output_dir = os.path.join(runtime_paths.output_dir, config.eval_id)
-        scenario_tmp_dir = os.path.join(runtime_paths.tmp_dir, config.eval_id)
-        os.makedirs(scenario_output_dir, exist_ok=True)
-        os.makedirs(scenario_tmp_dir, exist_ok=True)
-
         self.config = config
+
+        # TODO: Remove after refactor. -CW
+        if not hasattr(self.config, "eval_id"):
+            log.error("eval_id not in config. Inserting current timestamp.")
+            self.config.eval_id = str(time.time())
+
 
     def run(self):
         # TODO: Refactor the dynamic import mechanism. -CW
