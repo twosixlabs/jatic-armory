@@ -27,10 +27,10 @@ def main():
     print(("=" * 64).center(128))
 
     print(__import__("json").dumps(demo_evaluation.asdict(), indent=4, sort_keys=True))
-    print(("-" * 64).center(128))
+    print("-" * 64)
 
     print(result)
-    print(("=" * 64).center(128))
+    print("=" * 64)
 
     log.info(bold("mnist experiment results tracked"))
 
@@ -38,5 +38,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    sys.exit(os.EX_OK)
+    exitcode = os.EX_OK
+    try:
+        main()
+    except:
+        exitcode = os.EX_SOFTWARE
+    sys.exit(exitcode)
