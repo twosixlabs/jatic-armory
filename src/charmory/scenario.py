@@ -11,7 +11,7 @@ from typing import Optional
 from tqdm import tqdm
 
 import armory
-from armory import Config, metrics
+from armory import metrics
 from armory.instrument import MetricsLogger, del_globals, get_hub, get_probe
 from armory.instrument.export import ExportMeter, PredictionMeter
 from armory.logs import log
@@ -28,7 +28,7 @@ class Scenario:
 
     def __init__(
         self,
-        config: Config,
+        config: dict,
         num_eval_batches: Optional[int] = None,
         skip_benign: Optional[bool] = False,
         skip_attack: Optional[bool] = False,
