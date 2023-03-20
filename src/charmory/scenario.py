@@ -57,7 +57,7 @@ class ScenarioRunner:
         #     args.num_eval_batches = None
 
         kwargs = {}
-        scenario = ScenarioClass(config, **kwargs)
+        scenario = ScenarioClass(self.config, **kwargs)
 
         return scenario.evaluate()
 
