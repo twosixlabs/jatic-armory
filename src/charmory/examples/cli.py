@@ -1,15 +1,9 @@
 """
 Based on `track.py`
 """
-import datetime
-import json
-import os
-import shutil
 import sys
 
 import armory
-from armory import environment, paths
-from armory.configuration import load_global_config
 from armory.logs import log
 from armory.utils.printing import bold, red
 from charmory.engine import Engine

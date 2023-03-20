@@ -3,9 +3,9 @@ Primary class for scenario
 """
 
 import copy
-import importlib
+# import importlib
 import json
-import os
+# import os
 import sys
 import time
 from typing import Optional
@@ -13,12 +13,12 @@ from typing import Optional
 from tqdm import tqdm
 
 import armory
-from armory import Config, metrics, paths
+from armory import Config, metrics
 from armory.instrument import MetricsLogger, del_globals, get_hub, get_probe
 from armory.instrument.export import ExportMeter, PredictionMeter
 from armory.logs import log
 from armory.metrics import compute
-from armory.utils import config_loading, json_utils
+from armory.utils import config_loading
 
 
 class Scenario:
@@ -82,7 +82,7 @@ class Scenario:
         self.time_stamp = time.time()
         self.export_subdir = "saved_samples"
         # self._set_output_dir(self.config.get("eval_id"))
-        self.export_dir = f"private"
+        self.export_dir = "private"
         self.export_subdir = self.export_dir
         # if os.path.exists(f"{self.scenario_output_dir}/{self.export_subdir}"):
         #     log.warning(
@@ -192,7 +192,7 @@ class Scenario:
 
     def load_train_dataset(self, train_split_default="train"):
         dataset_config = self.config["dataset"]
-        log.info(f"Loading train dataset...")
+        log.info("Loading train dataset...")
         self.train_dataset = config_loading.load_dataset(
             dataset_config,
             epochs=self.fit_kwargs["nb_epochs"],
@@ -261,7 +261,7 @@ class Scenario:
         dataset_config = self.config["dataset"]
         eval_split = dataset_config.get("eval_split", eval_split_default)
         # Evaluate the ART model on benign test examples
-        log.info(f"Loading test dataset...")
+        log.info("Loading test dataset...")
         self.test_dataset = config_loading.load_dataset(
             dataset_config,
             epochs=1,

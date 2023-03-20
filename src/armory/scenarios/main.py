@@ -23,7 +23,7 @@ import pytest
 
 from armory import Config, paths, validation
 from armory.logs import log, make_logfiles
-from armory.utils import config_loading, external_repo
+from armory.utils import config_loading
 from armory.utils.configuration import load_config
 
 
