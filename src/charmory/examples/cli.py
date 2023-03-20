@@ -1,6 +1,7 @@
 """
 Based on `track.py`
 """
+import os
 import sys
 
 from armory.logs import log
@@ -37,4 +38,5 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
+    sys.exit(os.EX_OK)
