@@ -5,7 +5,6 @@ Primary class for scenario
 import copy
 from importlib import import_module
 import json
-import os
 import sys
 import time
 from typing import Optional
@@ -33,7 +32,6 @@ class ScenarioRunner:
         if not hasattr(self.config, "eval_id"):
             log.error("eval_id not in config. Inserting current timestamp.")
             self.config.eval_id = str(time.time())
-
 
     def run(self):
         # TODO: Refactor the dynamic import mechanism. -CW
