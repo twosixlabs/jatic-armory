@@ -26,28 +26,6 @@ from armory.utils import config_loading
 from armory.utils.configuration import load_config
 
 
-def _get_config(config_json, from_file=False) -> Config:
-    """
-    Reads a config specification from json, dedcodes it, and returns the
-    resultant dict.
-    """
-    if from_file:
-        config_json = load_config(config_json)
-    else:
-        config_base64_bytes = config_json.encode("utf-8")
-        config_b64_bytes = base64.b64decode(config_base64_bytes)
-        config_string = config_b64_bytes.decode("utf-8")
-        config_json = json.loads(config_string)
-    return config_json
-
-
-def run_validation(config_json, from_file=False) -> None:
-    """
-    Test a configuration spec for jsonschema correctness. Fault on error.
-    """
-    ...
-
-
 def get(
     config_json,
     from_file=True,
@@ -61,7 +39,7 @@ def get(
     Init environment variables and initialize scenario class with config;
     returns a constructed Scenario subclass based on the config specification.
     """
-    config = _get_config(config_json, from_file=from_file)
+    config = load_config(config_json)
     scenario_config = config.get("scenario")
     if scenario_config is None:
         raise KeyError('"scenario" missing from evaluation config')
@@ -142,8 +120,7 @@ def main(scenario_config: dict):
     Programmatic entrypoint for running scenarios
 
     TODO
-    ----------
-      - Utilize @dataclass for scenario_config
+    ----------------
       - Refactor method signature to be more explicit
       - Turn main into a Scenario class
     """
@@ -158,9 +135,6 @@ def main(scenario_config: dict):
     # if args.check and args.num_eval_batches:
     #     log.warning("--num_eval_batches will be overridden since --check was passed")
     #     args.num_eval_batches = None
-
-    # if args.validate_config:
-    #     run_validation(args.config, args.from_file)
 
     kwargs = {}
     scenario = ScenarioClass(scenario_config, **kwargs)
