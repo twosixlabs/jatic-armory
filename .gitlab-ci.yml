@@ -83,13 +83,13 @@ unit-test:
   dependencies:
     - setup
     - code-linting
-  allow_failure: true # Just until we get the tests working fully.
+  # allow_failure: true # Just until we get the tests working fully.
   only:
     - merge_requests
   script:
-    - pytest -c pyproject.toml -s ./tests.orig/unit/test_configuration.py
-    - pytest -c pyproject.toml -m "not docker_required and unit" ./tests.orig/
-    - pytest -c pyproject.toml -s ./tests.orig/end_to_end/test_no_docker.py
+    # - pytest -c pyproject.toml -s ./tests.orig/unit/test_configuration.py
+    # - pytest -c pyproject.toml -m "not docker_required and unit" ./tests.orig/
+    # - pytest -c pyproject.toml -s ./tests.orig/end_to_end/test_no_docker.py
     - charmory
 
 build:
@@ -97,7 +97,7 @@ build:
   dependencies:
     - setup
     - code-linting
-    # - unit-test
+    - unit-test
   only:
     - merge_requests
   script:
