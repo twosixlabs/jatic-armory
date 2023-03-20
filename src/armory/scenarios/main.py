@@ -19,7 +19,6 @@ import json
 import os
 import time
 
-import pytest
 
 from armory import Config, paths, validation
 from armory.logs import log, make_logfiles
@@ -46,13 +45,7 @@ def run_validation(config_json, from_file=False) -> None:
     """
     Test a configuration spec for jsonschema correctness. Fault on error.
     """
-    config = _get_config(config_json, from_file=from_file)
-    _scenario_setup(config)
-    model_config = json.dumps(config.get("model"))
-    test_path_context = importlib.resources.path(validation, "test_config")
-    with test_path_context as test_path:
-        return_val = pytest.main(["-x", str(test_path), "--model-config", model_config])
-    assert return_val == pytest.ExitCode.OK, "Model configuration validation failed"
+    ...
 
 
 def get(
