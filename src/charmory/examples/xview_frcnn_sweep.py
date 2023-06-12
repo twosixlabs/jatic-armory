@@ -20,7 +20,12 @@ from charmory.evaluation import (
 
 dataset = Dataset(
     function="armory.data.datasets:cifar10", framework="numpy", batch_size=64
+        # "batch_size": 1,
+        # "framework": "numpy",
+        # "module": "armory.data.datasets",
+        # "name": "xview"
 )
+
 model = Model(
     function="armory.baseline_models.pytorch.cifar:get_art_model",
     model_kwargs={},
@@ -28,6 +33,14 @@ model = Model(
     weights_file=None,
     fit=True,
     fit_kwargs={"nb_epochs": 20},
+
+        # "fit": false,
+        # "fit_kwargs": {},
+        # "model_kwargs": {},
+        # "module": "armory.baseline_models.pytorch.xview_frcnn",
+        # "name": "get_art_model",
+        # "weights_file": "xview_model_state_dict_epoch_99_loss_0p67",
+        # "wrapper_kwargs": {}
 )
 
 attack = Attack(
@@ -45,12 +58,80 @@ attack = Attack(
     knowledge="white",
     use_label=True,
     type=None,
+
+        # "generate_kwargs": {
+        #     "xmin": 0,
+        #     "ymin": 0
+        # },
+        # "knowledge": "white",
+        # "kwargs": {
+        #     "batch_size": 1,
+        #     "eps": 1.0,
+        #     "eps_step": 0.01,
+        #     "max_iter": 100,
+        #     "num_random_init": 0,
+        #     "random_eps": false,
+        #     "targeted": true,
+        #     "verbose": true
+        # },
+        # "module": "armory.art_experimental.attacks.pgd_patch",
+        # "name": "PGDPatch",
+        # "sweep_params": {
+        #     "generate_kwargs": {
+        #         "patch_height": [
+        #             10,
+        #             20,
+        #             30,
+        #             40,
+        #             50,
+        #             60,
+        #             70,
+        #             80,
+        #             90,
+        #             100,
+        #             110
+        #         ],
+        #         "patch_width": [
+        #             10,
+        #             20,
+        #             30,
+        #             40,
+        #             50,
+        #             60,
+        #             70,
+        #             80,
+        #             90,
+        #             100,
+        #             110
+        #         ]
+        #     },
+        #     "kwargs": {},
+        #     "metric": {
+        #         "module": "armory.metrics.task",
+        #         "name": "object_detection_mAP",
+        #         "threshold": 0.1
+        #     }
+        # },
+        # "targeted_labels": {
+        #     "kwargs": {
+        #         "value": 2
+        #     },
+        #     "module": "armory.utils.labels",
+        #     "name": "ObjectDetectionFixedLabelTargeter"
+        # },
+        # "type": "sweep",
+        # "use_label": false
+
 )
 
 
 scenario = Scenario(
     function="armory.scenarios.image_classification:ImageClassificationTask",
     kwargs={},
+
+        # "kwargs": {},
+        # "module": "armory.scenarios.object_detection",
+        # "name": "ObjectDetectionTask"
 )
 
 metric = Metric(
@@ -60,14 +141,28 @@ metric = Metric(
     task=["categorical_accuracy"],
     means=True,
     record_metric_per_sample=False,
+
+        # "means": true,
+        # "perturbation": "l0",
+        # "record_metric_per_sample": true,
+        # "task": [
+        #     "object_detection_AP_per_class"
+        # ]
 )
 
-sysconfig = SysConfig(gpus=["all"], use_gpu=True)
+sysconfig = SysConfig(gpus=["all"], use_gpu=True
+        # "docker_image": "twosixarmory/armory",
+        # "external_github_repo": null,
+        # "gpus": "all",
+        # "output_dir": null,
+        # "output_filename": null,
+        # "use_gpu": false
+)
 
 
 baseline = Evaluation(
-    name="cifar_baseline",
-    description="Baseline cifar10 image classification",
+    name="xview_frcnn_sweep_patch_size",
+    description="XView object detection, contributed by MITRE Corporation",
     author="msw@example.com",
     dataset=dataset,
     model=model,
