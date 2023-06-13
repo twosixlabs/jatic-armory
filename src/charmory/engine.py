@@ -35,28 +35,34 @@ class Engine:
             if not scenario.skip_benign:
                 scenario.run_benign()
                 try:
-                    scenario.sample_exporter.export(scenario.x[0], f"benign_batch_{scenario.i}", with_boxes=False)
+                    scenario.sample_exporter.export(
+                        scenario.x[0], f"benign_batch_{scenario.i}", with_boxes=False
+                    )
                     if scenario.y[0] != None and scenario.y_pred[0] != None:
                         scenario.sample_exporter.export(
-                        scenario.x[0],
-                        f"benign_batch_{scenario.i}_bbox",
-                        y=scenario.y[0],
-                        y_pred=scenario.y_pred[0],
-                        with_boxes=True
+                            scenario.x[0],
+                            f"benign_batch_{scenario.i}_bbox",
+                            y=scenario.y[0],
+                            y_pred=scenario.y_pred[0],
+                            with_boxes=True,
                         )
                 except:
                     pass
             if not scenario.skip_attack:
                 scenario.run_attack()
                 try:
-                    scenario.sample_exporter.export( scenario.x_adv[0], f"adversarial_batch_{scenario.i}", with_boxes=False)
+                    scenario.sample_exporter.export(
+                        scenario.x_adv[0],
+                        f"adversarial_batch_{scenario.i}",
+                        with_boxes=False,
+                    )
                     if scenario.y[0] != None or scenario.y_pred_adv[0] != None:
                         scenario.sample_exporter.export(
-                        scenario.x_adv[0],
-                        f"adversarial_batch_{scenario.i}_bbox",
-                        y=scenario.y[0],
-                        y_pred=scenario.y_pred_adv[0],
-                        with_boxes=True
+                            scenario.x_adv[0],
+                            f"adversarial_batch_{scenario.i}_bbox",
+                            y=scenario.y[0],
+                            y_pred=scenario.y_pred_adv[0],
+                            with_boxes=True,
                         )
                 except:
                     pass
