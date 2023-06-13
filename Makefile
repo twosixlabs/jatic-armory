@@ -58,7 +58,7 @@ define ExecuteTests
 	python -m pytest -c pyproject.toml -m "unit" ./tests/unit/
 
 	echo "🤞 Mock end-to-end test..."
-	armory
+	charmory
 endef
 
 
