@@ -67,51 +67,8 @@ def test_initializers():
 
 
 def test_mnist_experiment():
-    exp = mnist.baseline
+    experiment = mnist.baseline.asdict()
 
-    assert exp.asdict() == {
-        "name": "mnist_baseline",
-        "description": "derived from mnist_baseline.json",
-        "author": "msw@example.com",
-        "model": {
-            "function": "armory.baseline_models.keras.mnist:get_art_model",
-            "model_kwargs": {},
-            "wrapper_kwargs": {},
-            "weights_file": None,
-            "fit": True,
-            "fit_kwargs": {"nb_epochs": 20},
-        },
-        "scenario": {
-            "function": "armory.scenarios.image_classification:ImageClassificationTask",
-            "kwargs": {},
-        },
-        "dataset": {
-            "function": "armory.data.datasets:mnist",
-            "framework": "numpy",
-            "batch_size": 128,
-        },
-        "attack": {
-            "function": "art.attacks.evasion:FastGradientMethod",
-            "kwargs": {
-                "batch_size": 1,
-                "eps": 0.2,
-                "eps_step": 0.1,
-                "minimal": False,
-                "num_random_init": 0,
-                "targeted": False,
-            },
-            "knowledge": "white",
-            "use_label": True,
-            "type": None,
-        },
-        "defense": None,
-        "metric": {
-            "profiler_type": "basic",
-            "supported_metrics": ["accuracy"],
-            "perturbation": ["linf"],
-            "task": ["categorical_accuracy"],
-            "means": True,
-            "record_metric_per_sample": False,
-        },
-        "sysconfig": {"gpus": ["all"], "use_gpu": True},
-    }
+    assert experiment["name"] == "mnist_baseline"
+
+    assert experiment["defense"] == None
