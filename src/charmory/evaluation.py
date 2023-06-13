@@ -16,6 +16,10 @@ class Attack:
     knowledge: Literal["white", "black"]
     use_label: bool = False
     type: Optional[str] = None
+    # TODO: remove unused default parameters; see __post_init__. -CW
+    generate_kwargs: Optional[StrDict] = None
+    sweep_params: Optional[StrDict] = None
+    targeted_labels: Optional[StrDict] = None
 
 
 @dataclass
