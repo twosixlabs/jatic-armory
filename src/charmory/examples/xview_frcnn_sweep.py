@@ -44,7 +44,9 @@ attack = Attack(
         "targeted": True,
         "verbose": True,
     },
-    use_label=True,
+    # use_label=True,
+    # see: scenario.py", line 263, in load_attack
+    #      >>> raise ValueError("Targeted attacks cannot have 'use_label'")
     type="sweep",
     generate_kwargs={"xmin": 0, "ymin": 0},
     sweep_params={

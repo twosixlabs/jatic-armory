@@ -14,7 +14,7 @@ class Attack:
     function: MethodName
     kwargs: StrDict
     knowledge: Literal["white", "black"]
-    use_label: bool = False
+    # use_label: bool = False  # Fails if attack != targetted(e.g. PGD) -CW
     type: Optional[str] = None
     # TODO: remove unused default parameters; see __post_init__. -CW
     generate_kwargs: Optional[StrDict] = None
