@@ -5,6 +5,7 @@ import json
 import sys
 
 import armory.version
+
 # from charmory.blocks import cifar10, mnist  # noqa: F401
 from charmory.engine import Engine
 from charmory.evaluation import (
@@ -16,7 +17,6 @@ from charmory.evaluation import (
     Scenario,
     SysConfig,
 )
-
 
 dataset = Dataset(
     function="armory.data.datasets:xview", framework="numpy", batch_size=1
@@ -42,56 +42,27 @@ attack = Attack(
         "num_random_init": 0,
         "random_eps": False,
         "targeted": True,
-        "verbose": True
+        "verbose": True,
     },
     use_label=True,
-    type = "sweep",
-    generate_kwargs = {
-        "xmin": 0,
-        "ymin": 0
-    },
-    sweep_params = {
+    type="sweep",
+    generate_kwargs={"xmin": 0, "ymin": 0},
+    sweep_params={
         "generate_kwargs": {
-            "patch_height": [
-                10,
-                20,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                100,
-                110
-            ],
-            "patch_width": [
-                10,
-                20,
-                30,
-                40,
-                50,
-                60,
-                70,
-                80,
-                90,
-                100,
-                110
-            ]
+            "patch_height": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
+            "patch_width": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110],
         },
         "kwargs": {},
         "metric": {
             "module": "armory.metrics.task",
             "name": "object_detection_mAP",
-            "threshold": 0.1
-        }
-    },
-    targeted_labels = {
-        "kwargs": {
-            "value": 2
+            "threshold": 0.1,
         },
+    },
+    targeted_labels={
+        "kwargs": {"value": 2},
         "module": "armory.utils.labels",
-        "name": "ObjectDetectionFixedLabelTargeter"
+        "name": "ObjectDetectionFixedLabelTargeter",
     },
 )
 
@@ -102,8 +73,6 @@ scenario = Scenario(
 )
 
 metric = Metric(
-    # profiler_type="basic",
-    # supported_metrics=["accuracy"],
     means=True,
     record_metric_per_sample=False,
     perturbation=["l0"],
@@ -132,7 +101,6 @@ def main(argv: list = sys.argv[1:]):
             sys.exit(0)
 
     print("Armory: Example Programmatic Entrypoint for Scenario Execution")
-
 
     engine = Engine(baseline)
     results = engine.run()
