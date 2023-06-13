@@ -1,5 +1,6 @@
 from importlib import import_module
 import time
+import warnings
 
 from tqdm import tqdm
 
@@ -38,7 +39,7 @@ class Engine:
                     scenario.sample_exporter.export(
                         scenario.x[0], f"benign_batch_{scenario.i}", with_boxes=False
                     )
-                    if scenario.y[0] != None and scenario.y_pred[0] != None:
+                    if scenario.y[0] is not None and scenario.y_pred[0] is not None:
                         scenario.sample_exporter.export(
                             scenario.x[0],
                             f"benign_batch_{scenario.i}_bbox",
@@ -46,8 +47,8 @@ class Engine:
                             y_pred=scenario.y_pred[0],
                             with_boxes=True,
                         )
-                except:
-                    pass
+                except Exception as e:
+                    warnings.warn(f"Failed to export benign sample: {e}")
             if not scenario.skip_attack:
                 scenario.run_attack()
                 try:
@@ -56,7 +57,7 @@ class Engine:
                         f"adversarial_batch_{scenario.i}",
                         with_boxes=False,
                     )
-                    if scenario.y[0] != None or scenario.y_pred_adv[0] != None:
+                    if scenario.y[0] is not None or scenario.y_pred_adv[0] is not None:
                         scenario.sample_exporter.export(
                             scenario.x_adv[0],
                             f"adversarial_batch_{scenario.i}_bbox",
@@ -64,8 +65,8 @@ class Engine:
                             y_pred=scenario.y_pred_adv[0],
                             with_boxes=True,
                         )
-                except:
-                    pass
+                except Exception as e:
+                    warnings.warn(f"Failed to export adversarial sample: {e}")
 
             scenario.hub.set_context(stage="finished")
             scenario.finalize_results()
