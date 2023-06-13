@@ -14,9 +14,9 @@ class Attack:
     function: MethodName
     kwargs: StrDict
     knowledge: Literal["white", "black"]
-    # use_label: bool = False  # Fails if attack != targetted(e.g. PGD) -CW
+    use_label: bool = False
     type: Optional[str] = None
-    # TODO: remove unused default parameters; see __post_init__. -CW
+    # The below are only used for sweep attacks
     generate_kwargs: Optional[StrDict] = None
     sweep_params: Optional[StrDict] = None
     targeted_labels: Optional[StrDict] = None

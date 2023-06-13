@@ -33,6 +33,8 @@ model = Model(
 
 attack = Attack(
     knowledge="white",
+    type="sweep",
+    use_label=False,
     function="armory.art_experimental.attacks.pgd_patch:PGDPatch",
     kwargs={
         "batch_size": 1,
@@ -44,10 +46,6 @@ attack = Attack(
         "targeted": True,
         "verbose": True,
     },
-    # use_label=True,
-    # see: scenario.py", line 263, in load_attack
-    #      >>> raise ValueError("Targeted attacks cannot have 'use_label'")
-    type="sweep",
     generate_kwargs={"xmin": 0, "ymin": 0},
     sweep_params={
         "generate_kwargs": {
@@ -75,13 +73,12 @@ scenario = Scenario(
 )
 
 metric = Metric(
+    profiler_type="basic",
+    supported_metrics=["accuracy"],
     means=True,
     record_metric_per_sample=False,
     perturbation=["l0"],
     task=["object_detection_AP_per_class"],
-    #
-    profiler_type="basic",
-    supported_metrics=["accuracy"],
 )
 
 
