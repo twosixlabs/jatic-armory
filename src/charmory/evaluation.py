@@ -16,10 +16,21 @@ class Attack:
     knowledge: Literal["white", "black"]
     use_label: bool = False
     type: Optional[str] = None
-    # The below are only used for sweep attacks
     generate_kwargs: Optional[StrDict] = None
     sweep_params: Optional[StrDict] = None
     targeted_labels: Optional[StrDict] = None
+
+    def __post_init__(self):
+        """remove unused default parameters"""
+        # TODO: Remove or refactor this method. -CW
+        remove_if_unused = [
+            "generate_kwargs",
+            "sweep_params",
+            "targeted_labels",
+        ]
+        for attr in remove_if_unused:
+            if getattr(self, attr) is None:
+                delattr(self, attr)
 
 
 @dataclass
