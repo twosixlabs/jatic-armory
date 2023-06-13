@@ -21,16 +21,17 @@ class Attack:
     targeted_labels: Optional[StrDict] = None
 
     def __post_init__(self):
-        """remove unused default parameters"""
-        # TODO: Remove or refactor this method. -CW
-        remove_if_unused = [
+        """Handle unused default parameters"""
+        # TODO: Temporary hack to allow other scenarios to run.
+        #       Remove or refactor this method. -CW
+        set_if_unused = [
             "generate_kwargs",
             "sweep_params",
             "targeted_labels",
         ]
-        for attr in remove_if_unused:
+        for attr in set_if_unused:
             if getattr(self, attr) is None:
-                delattr(self, attr)
+                setattr(self, attr, {})
 
 
 @dataclass
