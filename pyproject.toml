@@ -61,8 +61,8 @@ BugTracker = "https://github.com/twosixlabs/armory/issues"
 Documentation = "https://armory.readthedocs.io/en/latest/"
 
 [project.scripts]
-armory = "charmory.example:main"
-
+armory = "charmory.examples.cifar_example:main"
+armory-xview = "charmory.examples.xview_frcnn_sweep:main"
 
 # please see docs/getting_started.md#the-armory-flavors for how these
 # optional dependencies work
