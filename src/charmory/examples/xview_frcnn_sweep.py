@@ -76,7 +76,7 @@ metric = Metric(
     means=True,
     record_metric_per_sample=False,
     perturbation=["l0"],
-    task=["object_detection_AP_per_clas"],
+    task=["object_detection_AP_per_class"],
 )
 
 
