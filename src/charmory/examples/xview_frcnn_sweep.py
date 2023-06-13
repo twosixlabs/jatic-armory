@@ -77,6 +77,9 @@ metric = Metric(
     record_metric_per_sample=False,
     perturbation=["l0"],
     task=["object_detection_AP_per_class"],
+    #
+    profiler_type="basic",
+    supported_metrics=["accuracy"],
 )
 
 
