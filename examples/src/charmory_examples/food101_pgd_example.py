@@ -1,3 +1,9 @@
+"""
+This file serves as an example of ART-less projected gradient descent attacks. This file provides the general structure for a training and evaluation pipeline on
+the Food101 Dataset
+"""
+
+
 import torch
 from torchvision import transforms, datasets
 from torch import optim, nn
@@ -122,7 +128,7 @@ train_loader = DataLoader(
 )
 model.train()
 print("Training Model...")
-optimiser = optim.SGD(model.parameters(), lr=0.1)
+optimiser = optim.SGD(model.parameters(), lr=0.003)
 loss_fn = nn.CrossEntropyLoss()
 
 # Training Loop
