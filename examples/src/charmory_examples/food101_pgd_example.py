@@ -12,7 +12,7 @@ import torch.nn.functional as F
 
 ROOT = "/home/rahul/cache"
 BATCH_SIZE = 16
-STEP_VALUE_TRAIN = 10
+STEP_VALUE_TRAIN = 5
 STEP_VALUE_TEST = 5
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
