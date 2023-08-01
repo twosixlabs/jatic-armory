@@ -5,10 +5,10 @@ the Food101 Dataset
 
 
 import torch
-from torchvision import transforms, datasets
-from torch import optim, nn
-from torch.utils.data import DataLoader
+from torch import nn, optim
 import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
 
 ROOT = "/home/rahul/cache"
 BATCH_SIZE = 16
