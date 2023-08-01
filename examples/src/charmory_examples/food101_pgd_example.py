@@ -30,6 +30,9 @@ def projected_gradient_descent(
     num_steps,
     random_start,
 ):
+    """
+    Adapted from torchattacks PGD code (https://adversarial-attacks-pytorch.readthedocs.io/en/latest/_modules/torchattacks/attacks/pgd.html#PGD)
+    """
     images = x.clone().detach().to(DEVICE)
     labels = y.clone().detach().to(DEVICE)
     loss = nn.CrossEntropyLoss()
