@@ -14,6 +14,7 @@ ROOT = "/home/rahul/cache"
 BATCH_SIZE = 16
 STEP_VALUE_TRAIN = 5
 STEP_VALUE_TEST = 5
+NUM_EPOCHS = 5
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -24,59 +25,36 @@ def projected_gradient_descent(
     model,
     x,
     y,
-    loss_fn,
+    epsilon,
+    alpha,
     num_steps,
-    step_size,
-    step_norm,
-    eps,
-    eps_norm,
-    clamp=(0, 1),
-    y_target=None,
+    random_start,
 ):
-    x_adv = x.clone().detach().requires_grad_(True).to(x.device)
-    targeted = y_target is not None
-    num_channels = x.shape[1]
+    images = x.clone().detach().to(DEVICE)
+    labels = y.clone().detach().to(DEVICE)
+    loss = nn.CrossEntropyLoss()
+    adv_images = images.clone().detach()
 
-    for i in range(num_steps):
-        _x_adv = x_adv.clone().detach().requires_grad_(True)
+    if random_start:
+        adv_images = adv_images + torch.empty_like(adv_images).uniform_(
+            -epsilon, epsilon
+        )
+        adv_images = torch.clamp(adv_images, min=0, max=1).detach()
 
-        prediction = model(_x_adv)
-        loss = loss_fn(prediction, y_target if targeted else y)
-        loss.backward()
+    for _ in range(num_steps):
+        adv_images.requires_grad = True
+        outputs = model(adv_images)
+        cost = loss(outputs, labels)
 
-        with torch.no_grad():
-            if step_norm == "inf":
-                gradients = _x_adv.grad.sign() * step_size
-            else:
-                gradients = (
-                    _x_adv.grad
-                    * step_size
-                    / _x_adv.grad.view(_x_adv.shape[0], -1)
-                    .norm(step_norm, dim=-1)
-                    .view(-1, num_channels, 1, 1)
-                )
+        grad = torch.autograd.grad(
+            cost, adv_images, retain_graph=False, create_graph=False
+        )[0]
 
-            if targeted:
-                x_adv -= gradients
-            else:
-                x_adv += gradients
+        adv_images = adv_images.detach() + alpha * grad.sign()
+        delta = torch.clamp(adv_images - images, min=-epsilon, max=epsilon)
+        adv_images = torch.clamp(images + delta, min=0, max=1).detach()
 
-        if eps_norm == "inf":
-            x_adv = torch.max(torch.min(x_adv, x + eps), x - eps)
-        else:
-            delta = x_adv - x
-            mask = delta.view(delta.shape[0], -1).norm(eps_norm, dim=1) <= eps
-
-            scaling_factor = delta.view(delta.shape[0], -1).norm(eps_norm, dim=1)
-            scaling_factor[mask] = eps
-
-            delta *= eps / scaling_factor.view(-1, 1, 1, 1)
-
-            x_adv = x + delta
-
-        x_adv = x_adv.clamp(*clamp)
-
-    return x_adv.detach()
+    return adv_images
 
 
 class Net(nn.Module):
@@ -132,7 +110,7 @@ optimiser = optim.SGD(model.parameters(), lr=0.003)
 loss_fn = nn.CrossEntropyLoss()
 
 # Training Loop
-for epoch in range(5):
+for epoch in range(NUM_EPOCHS):
     print("Epoch: " + str(epoch + 1))
     i = 0
     for x, y in train_loader:
@@ -177,12 +155,10 @@ for x, y in test_loader:
         model,
         x,
         y,
-        loss_fn,
-        num_steps=40,
-        step_size=0.01,
-        eps=0.3,
-        eps_norm="inf",
-        step_norm="inf",
+        num_steps=20,
+        random_start=False,
+        epsilon=0.031,
+        alpha=0.007,
     )
     outputs_adv = model(x_adversarial)
     _, predictions_adv = torch.max(outputs_adv, 1)
