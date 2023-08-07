@@ -13,9 +13,15 @@ def show_samples(dataset, samples=3, n_col=3):
     chosen = []
     while len(chosen) < samples:
         choice = random.choice(dataset)
-        label = choice["label"]
+
+        # this is an ugly hack to handle dataset in different layouts
+        if isinstance(choice, dict) and "label" in choice:
+            image, label = choice["image"], choice["label"]
+        else:
+            image, label = choice
+
         if label not in chosen_labels:
-            chosen.append(choice)
+            chosen.append(image)
             chosen_labels.add(label)
 
     print(f"{chosen_labels=}")
@@ -24,5 +30,5 @@ def show_samples(dataset, samples=3, n_col=3):
     _, axs = plt.subplots(n_row, n_col)
     axs = axs.flatten()
     for sample, ax in zip(chosen, axs):
-        ax.imshow(sample["image"])
+        ax.imshow(sample)
     plt.show()
